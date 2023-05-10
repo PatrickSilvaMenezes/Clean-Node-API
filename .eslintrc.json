@@ -1,10 +1,13 @@
 {
-  "extends": "standard-with-typescript",
+  "extends": [
+    "plugin:@typescript-eslint/recommended"
+  ],
   "parserOptions": {
     "project": "./tsconfig.json"
   },
   "rules": {
-    "@typescript-eslint/strict-boolean-expressions": "off"
+    "@typescript-eslint/strict-boolean-expressions": "off",
+    "@typescript-eslint/typedef": "off"
   } 
 
 }
