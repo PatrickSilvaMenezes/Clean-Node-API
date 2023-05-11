@@ -22,7 +22,11 @@
     "typescript": "^5.0.4"
   },
   "scripts": {
-    "test": "jest --watch",
-    "test:staged": "jest"
+    "test": "jest --passWithNoTests --silent --noStackTrace --runInBand",
+    "test:staged": "npm test --findRelatedTests --runInBand",
+    "test:integration": "npm test -- --watch -c jest-integration-config.js ",
+    "test:unit": "npm test -- --watch c jest-unit-config.js",
+    "test:verbose": "jest --passWithNoTests",
+    "test:ci": "npm test -- --coverage"
   }
 }
