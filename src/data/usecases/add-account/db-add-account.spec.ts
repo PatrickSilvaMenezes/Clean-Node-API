@@ -51,12 +51,12 @@ describe('DbAddAccount UseCase', () => {
     const { sut, encrypterStub } = makeSut()
     const encryptSpy = jest.spyOn(encrypterStub, 'encrypt')
     const accountData = {
-      name: 'valid name',
-      email: 'valid email',
-      password: 'valid password'
+      name: 'valid_name',
+      email: 'valid_email',
+      password: 'valid_password'
     }
     await sut.add(accountData)
-    expect(encryptSpy).toHaveBeenCalledWith('valid password')
+    expect(encryptSpy).toHaveBeenCalledWith('valid_password')
   })
   test('Should throw if Encrypter throws', async () => {
     const { sut, encrypterStub } = makeSut()
