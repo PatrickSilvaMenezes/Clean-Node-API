@@ -30,11 +30,12 @@
     "test:staged": "npm test --findRelatedTests --runInBand",
     "test:integration": "npm test -- --watch -c jest-integration-config.js ",
     "test:unit": "npm test -- --watch c jest-unit-config.js",
-    "test:verbose": "jest --passWithNoTests",
+    "test:verbose": "jest --passWithNoTests --runInBand",
     "test:ci": "npm test -- --coverage"
   },
   "dependencies": {
     "bcrypt": "^5.1.0",
+    "mongodb": "^5.5.0",
     "validator": "^13.9.0"
   }
 }
