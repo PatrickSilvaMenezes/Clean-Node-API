@@ -1,5 +1,4 @@
-export interface AccountModel{
-  id: string
+export interface AccountModel {
   name: string
   email: string
   password: string
