@@ -7,14 +7,14 @@ import { AccountModel } from '../../../domain/models/account'
 
 const makeEmailValidator = (): EmailValidator => {
   class EmailValidatorStub implements EmailValidator {
-    isValid(email: string): boolean{
+    isValid(email: string): boolean {
       return true
     }
   }
   return new EmailValidatorStub()
 }
 
-interface SutTypes{
+interface SutTypes {
   sut: SignUpController
   emailValidatorStub: EmailValidator
   addAccountStub: AddAccount
@@ -35,17 +35,17 @@ const makeAddAccount = (): AddAccount => {
   return new AddAccountStub()
 }
 
-const makeSut = (): SutTypes => { 
-    const emailValidatorStub = makeEmailValidator()
-    const addAccountStub = makeAddAccount()
-    const sut = new SignUpController(emailValidatorStub, addAccountStub)
-    return {
-      sut, 
-      emailValidatorStub, 
-      addAccountStub
-    }
+const makeSut = (): SutTypes => {
+  const emailValidatorStub = makeEmailValidator()
+  const addAccountStub = makeAddAccount()
+  const sut = new SignUpController(emailValidatorStub, addAccountStub)
+  return {
+    sut,
+    emailValidatorStub,
+    addAccountStub
+  }
 }
-  
+
 describe('SignUp Controller', () => {
 
   test('Should return 400 if no name is provided', async () => {
@@ -91,7 +91,7 @@ describe('SignUp Controller', () => {
     expect(httpResponse.statusCode).toBe(400)
     expect(httpResponse.body).toEqual(new MissingParamError('password'))
   })
-  test('Should return 400 if no password confirmation is provided', async  () => {
+  test('Should return 400 if no password confirmation is provided', async () => {
     // classe que estamos testando chamamos de sut (system under test)
     const { sut } = makeSut()
     const httpRequest = {
@@ -150,9 +150,9 @@ describe('SignUp Controller', () => {
     }
     await sut.handle(httpRequest)
     expect(isValidSpy).toHaveBeenCalledWith('any_email@email.com')
-    
+
   })
-    test('Should call AddAccount with correct values', async () => {
+  test('Should call AddAccount with correct values', async () => {
     // classe que estamos testando chamamos de sut (system under test)
     const { sut, addAccountStub } = makeSut()
     const addSpy = jest.spyOn(addAccountStub, 'add')
@@ -165,12 +165,12 @@ describe('SignUp Controller', () => {
       }
     }
     sut.handle(httpRequest)
-      expect(addSpy).toHaveBeenCalledWith({
+    expect(addSpy).toHaveBeenCalledWith({
       name: 'any_name',
       email: 'any_email@email.com',
       password: 'any_password'
     })
-    
+
   })
   test('Should return 500 if EmailValidator throws', async () => {
     // classe que estamos testando chamamos de sut (system under test)
@@ -189,9 +189,9 @@ describe('SignUp Controller', () => {
     const httpResponse = await sut.handle(httpRequest)
     expect(httpResponse.statusCode).toBe(500)
     expect(httpResponse.body).toEqual(new ServerError())
-    
+
   })
-  test('Should return 500 if AddAccount throws', async  () => {
+  test('Should return 500 if AddAccount throws', async () => {
     // classe que estamos testando chamamos de sut (system under test)
     const { sut, addAccountStub } = makeSut()
     jest.spyOn(addAccountStub, 'add').mockImplementationOnce(async () => {
@@ -208,27 +208,26 @@ describe('SignUp Controller', () => {
     const httpResponse = await sut.handle(httpRequest)
     expect(httpResponse.statusCode).toBe(500)
     expect(httpResponse.body).toEqual(new ServerError())
-    
+
   })
-    test('Should return 200 if valid email is provided', async  () => {
+  test('Should return 200 if valid email is provided', async () => {
     // classe que estamos testando chamamos de sut (system under test)
     const { sut } = makeSut()
     const httpRequest = {
       body: {
         name: 'valid_name',
-        email: 'invalid_email@email.com',
+        email: 'valid_email@email.com',
         password: 'valid_password',
         confirmPassword: 'valid_password'
       }
     }
     const httpResponse = await sut.handle(httpRequest)
     expect(httpResponse.statusCode).toBe(200)
-      expect(httpResponse.body).toEqual({
-        id: 'valid_id',
-        name: 'valid_name',
-        email: 'valid_email@email.com',
-        password: 'valid_password'
-        
+    expect(httpResponse.body).toEqual({
+      id: 'valid_id',
+      name: 'valid_name',
+      email: 'valid_email@email.com',
+      password: 'valid_password'
     })
   })
 
