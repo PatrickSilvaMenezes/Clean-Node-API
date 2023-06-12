@@ -8,10 +8,10 @@ export class SignUpController implements Controller {
   private readonly addAccount: AddAccount
   private readonly validation: Validation
 
-  constructor(emailValidator: EmailValidator, addAccount: AddAccount, Validation: Validation) {
+  constructor(emailValidator: EmailValidator, addAccount: AddAccount, validation: Validation) {
     this.emailValidator = emailValidator
     this.addAccount = addAccount
-    this.validation = Validation
+    this.validation = validation
   }
 
 
@@ -22,15 +22,8 @@ export class SignUpController implements Controller {
       if (error) {
         return badRequest(error)
       }
-
-
-      const { name, email, password, confirmPassword } = httpRequest.body
-
-      if (password !== confirmPassword) {
-        return badRequest(new InvalidParamError('confirmPassword'))
-      }
+      const { name, email, password } = httpRequest.body
       const isValid = this.emailValidator.isValid(email)
-
       if (!isValid) {
         return badRequest(new InvalidParamError('email'))
       }
